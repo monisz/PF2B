@@ -1,0 +1,61 @@
+[
+  {
+    "title": "Microscopio",
+    "description": "5000x",
+    "code": "MI400",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/microscope-lab-science-school-128.png",
+    "price": "4000",
+    "stock": "10",
+    "id": 1
+  },
+  {
+    "title": "Mochila",
+    "description": "de cuero",
+    "code": "MO500",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
+    "price": "2000",
+    "stock": "25",
+    "timestamp": 1654454337383,
+    "id": 2
+  },
+  {
+    "title": "Lápiz",
+    "description": "negro",
+    "code": "LA600",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-256.png",
+    "price": "200",
+    "stock": "100",
+    "timestamp": 1654807843751,
+    "id": 3
+  },
+  {
+    "title": "prueba file",
+    "description": "dfsaf",
+    "code": "P400",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-256.png",
+    "price": "445",
+    "stock": "2",
+    "timestamp": 1656287294077,
+    "id": 4
+  },
+  {
+    "title": "prueba2",
+    "description": "dsfsdf",
+    "code": "P2",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
+    "price": "4554",
+    "stock": "3",
+    "timestamp": 1656355932364,
+    "id": 5
+  },
+  {
+    "title": "p3",
+    "description": "sdfgsdf",
+    "code": "p3",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
+    "price": "4554",
+    "stock": "2",
+    "timestamp": 1656359233402,
+    "id": 6
+  }
+]
