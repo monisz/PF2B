@@ -2,10 +2,14 @@ const express = require('express');
 
 const router = express.Router();
 
-const Container = require('../../containers/containerMemory');
-const arrayP = require('../../../config');
-console.log("arrayP se supone vacio al entrar en prDaoMem", arrayP)
-const arrayProducts = new Container (arrayP);
+const Products = require('../../containers/containerMemory');
+//const arrayP = require('../../../config');
+
+//console.log("arrayP se supone vacio al entrar en prDaoMem", arrayP)
+
+const arrayProducts = new Products();
+console.log("al arrancar en pdM arrProd", arrayProducts)
+
 
 //Variable para manejo de autorización (configurar en true para administrador
 // o false para usuario)
@@ -72,4 +76,3 @@ router.delete('/:id', isAdmin, (req, res) => {
 
 
 module.exports = router;
-//module.exports = arrayProducts;

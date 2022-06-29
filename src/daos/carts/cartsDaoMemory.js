@@ -2,13 +2,19 @@ const express = require('express');
 
 const router = express.Router();
 
-const Container = require('../../containers/containerMemory');
-const arrayC = require('../../../config')
-const arrayP = require('../../../config')
+const Carts = require('../../containers/containerMemory');
+const Products = require('../../containers/containerMemory');
+//const arrayC = require('../../../config')
+//const arrayP = require('../../../config')
 
-const arrayCarts = new Container (arrayC);
-const arrayProducts = new Container (arrayP);
-console.log(arrayProducts, arrayCarts)
+//let arrayCarts = new Container (arrayC);
+//let arrayProducts = new Container (arrayP);
+
+const arrayCarts = new Carts();
+const arrayProducts = new Products();
+
+
+console.log("al arrancar en cdM arrProd", arrayProducts, "arCart", arrayCarts)
 
 //Para agregar un carrito
 router.post('/', (req, res) => {
@@ -104,5 +110,5 @@ router.delete('/:id/productos/:id_prod', (req, res) => {
     }
 });
 
-
 module.exports = router;
+
