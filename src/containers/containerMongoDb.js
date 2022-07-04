@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('../../config');
-
 class Container {
     constructor (collection) {
         this.collection = collection;
@@ -30,17 +28,8 @@ class Container {
     //Agregué este método para complementar el put por id
     async replaceById(idSearch, data) {
         try {
-            await this.collection.updateOne({id: idSearch}, {$set: {
-                title: data.title,
-                description: data.description,
-                code: data.code,
-                thumbnail: data.thumbnail,
-                price: data.price,
-                stock: data.stock
-            }})
-            const result = await this.collection.find({id: idSearch})
-            console.log(result)
-            return result
+            await this.collection.findOneAndUpdate({id: idSearch}, {$set: data})
+            return result = await this.collection.find({id: idSearch})
         }
         catch (error) {
             console.log("error al reemplazar datos: ", error);
@@ -61,7 +50,6 @@ class Container {
     async getAll() {
         try {
             const allItems = await this.collection.find();
-            console.log(allItems)
             return allItems;
         }
         catch (error) {
@@ -72,8 +60,7 @@ class Container {
 
     async deleteById(idSearch) {
         try {
-            const result = await this.collection.deleteOne({id: idSearch});
-            return result;
+            return result = await this.collection.deleteOne({id: idSearch});
         }
         catch (error) {
             console.log("error en deleteById): ", error);
@@ -81,6 +68,23 @@ class Container {
     }
 }
 
+const productsSchema = new mongoose.Schema({
+    title: {type: String, require: true},
+    description: {type: String, require: true},
+    code: {type: String, require: true},
+    thumbnail: {type: String, require: true},
+    price: {type: Number, require: true},
+    stock: {type: Number, require: true},
+    timestamp: {type: Date, require: true},
+    id: {type: Number, require: true}
+});
+const Product = mongoose.model("product", productsSchema);
+class Products extends Container {
+    constructor() {
+        super(Product);
+    }
+};
+const colProduct = new Products();
 
-module.exports = Container;
+module.exports = { Container, colProduct };
 

@@ -1,20 +1,6 @@
 const express = require('express');
-
 const router = express.Router();
-
-const Carts = require('../../containers/containerMemory');
-const Products = require('../../containers/containerMemory');
-//const arrayC = require('../../../config')
-//const arrayP = require('../../../config')
-
-//let arrayCarts = new Container (arrayC);
-//let arrayProducts = new Container (arrayP);
-
-const arrayCarts = new Carts();
-const arrayProducts = new Products();
-
-
-console.log("al arrancar en cdM arrProd", arrayProducts, "arCart", arrayCarts)
+const { Container, arrayCarts, arrayProducts } = require('../../containers/containerMemory');
 
 //Para agregar un carrito
 router.post('/', (req, res) => {
@@ -22,7 +8,6 @@ router.post('/', (req, res) => {
         timestamp : Date.now(),
         products: []
     };
-    console.log(newCart);
     const getCart = (async () => {
         const newId = await arrayCarts.save(newCart);
         res.send(`carrito agregado id: ${newId}`);
@@ -45,7 +30,6 @@ router.get('/:id/productos', (req, res) => {
         const id = parseInt(req.params.id);
         if (isNaN(id)) return res.status(400).send({error: "el parámetro no es un número"});
         const cart = await arrayCarts.getById(id);
-        console.log("carrito que trae del getbyid", cart)
         if (!cart) res.status(404).send({error: "carrito no encontrado"});
         else {
             const products = cart.products;
@@ -60,16 +44,13 @@ router.get('/:id/productos', (req, res) => {
 router.post('/:id/productos', (req, res) => {
     const idCart = parseInt(req.params.id);
     const idProduct = req.body.id;
-    console.log(idProduct)
     const getProduct = (async () => {
         if (isNaN(idProduct)) return res.status(400).send({error: "el parámetro no es un número"});
-        console.log(arrayProducts)
         const productToAdd = await arrayProducts.getById(idProduct);
         if (!productToAdd) res.status(404).send({error: "producto no encontrado"});
         else {
             const getCart = (async () => {
                 const cart = await arrayCarts.getById(idCart);
-                console.log("carrito en post", cart)
                 if (!cart) res.send('error: no existe ese carrito');
                 else {
                     cart.products.push(productToAdd);

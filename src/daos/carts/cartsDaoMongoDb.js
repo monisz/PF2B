@@ -3,18 +3,21 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
-const Container = require('../../containers/containerMongoDb');
-const Product = require('../products/productsDaoMongoDb');
+const { Container, colProduct } = require('../../containers/containerMongoDb');
 
 const cartsSchema = new mongoose.Schema({
     timestamp: {type: Date, require: true},
     id: {type: Number, require: true},
     products : []
 });
-const Cart = mongoose.model("cart", cartsSchema)
-const colCart = new Container(Cart);
-const colProduct = new Container(Product);
+const Cart = mongoose.model("cart", cartsSchema);
 
+class Carts extends Container {
+    constructor(){
+        super(Cart);
+    }
+};
+const colCart = new Carts();
 
 
 //Para agregar un carrito
@@ -23,7 +26,6 @@ router.post('/', (req, res) => {
         timestamp : Date.now(),
         products: []
     };
-    console.log(newCart);
     const getCart = (async () => {
         const newId = await colCart.save(newCart);
         res.send(`carrito agregado id: ${newId}`);
@@ -46,11 +48,9 @@ router.get('/:id/productos', (req, res) => {
         const id = parseInt(req.params.id);
         if (isNaN(id)) return res.status(400).send({error: "el parámetro no es un número"});
         const cart = await colCart.getById(id);
-        console.log("carrito que trae del getbyid", cart)
         if (!cart) res.status(404).send({error: "carrito no encontrado"});
         else {
-            const products = cart.products;
-            res.json({products});
+            res.json(cart[0].products);
         }
     }) ();
 });
@@ -61,7 +61,6 @@ router.get('/:id/productos', (req, res) => {
 router.post('/:id/productos', (req, res) => {
     const idCart = parseInt(req.params.id);
     const idProduct = req.body.id;
-    console.log(idProduct)
     const getProduct = (async () => {
         if (isNaN(idProduct)) return res.status(400).send({error: "el parámetro no es un número"});
         const productToAdd = await colProduct.getById(idProduct);
@@ -69,13 +68,11 @@ router.post('/:id/productos', (req, res) => {
         else {
             const getCart = (async () => {
                 const cart = await colCart.getById(idCart);
-                console.log("carrito en post", cart)
                 if (!cart) res.send('error: no existe ese carrito');
                 else {
-                    cart.products.push(productToAdd);
+                    cart[0].products.push(productToAdd[0]);
                     const updateCart = (async () => {
-                        const cartModified = await colCart.replaceById(idCart, cart);
-                        console.log(cartModified)
+                        const cartModified = await colCart.replaceById(idCart, cart[0]);
                         res.send(`producto id: ${idProduct} agregado en carrito id: ${idCart}`);
                     }) ();
                 }
@@ -95,13 +92,13 @@ router.delete('/:id/productos/:id_prod', (req, res) => {
             const cart = await colCart.getById(idCart)
             if (!cart) res.send('error: no existe ese carrito');
             else {
-                const productFind = cart.products.find((elem) => elem.id === idProduct);
+                const productFind = cart[0].products.find((elem) => elem.id === idProduct);
                 if (!productFind) res.send('error: no existe ese producto en el carrito');
                 else {
-                    cart.products = cart.products.filter((elem) => elem.id !== idProduct);
+                    cart[0].products = cart[0].products.filter((elem) => elem.id !== idProduct);
                     const updateCart = (async () => {
-                        const cartModified = await colCart.replaceById(idCart, cart);
-                        console.log(cartModified)
+                        const cartModified = await colCart.replaceById(idCart, cart[0]);
+                        console.log("carrito modificado", cartModified[0])
                         res.send(`producto id: ${idProduct} eliminado del carrito id: ${idCart}`);
                     }) ();
                 }

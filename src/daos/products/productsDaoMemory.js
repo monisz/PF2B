@@ -1,15 +1,6 @@
 const express = require('express');
-
 const router = express.Router();
-
-const Products = require('../../containers/containerMemory');
-//const arrayP = require('../../../config');
-
-//console.log("arrayP se supone vacio al entrar en prDaoMem", arrayP)
-
-const arrayProducts = new Products();
-console.log("al arrancar en pdM arrProd", arrayProducts)
-
+const { Container, arrayProducts } = require('../../containers/containerMemory');
 
 //Variable para manejo de autorización (configurar en true para administrador
 // o false para usuario)
@@ -22,7 +13,6 @@ const isAdmin = (req, res, next) => {
 
 //Vista de todos los productos
 router.get('/', (req, res) => {
-    const entry = JSON.stringify(req.params);
     const getProducts = (async () => {
         const products = await arrayProducts.getAll();
         res.render('main', {products});
@@ -50,6 +40,7 @@ router.post('/', isAdmin, (req, res) => {
     newProduct.timestamp = Date.now();
     const getProducts = (async () => {
         const newId = await arrayProducts.save(newProduct);
+        console.log("nuevo producto agregado id:", newId);
         res.send('producto agregado');
     }) ();
 });
@@ -73,6 +64,5 @@ router.delete('/:id', isAdmin, (req, res) => {
         else res.send("producto eliminado");
     }) ();
 });
-
 
 module.exports = router;
