@@ -1,7 +1,7 @@
 const express = require('express');
 
-const pers = require('../../config');
-
+//const pers = require('../../config');
+const pers = "firebase"; 
 let routerProducts;
 let routerCart;
 

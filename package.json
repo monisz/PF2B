@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "BASE_DE_DATOS=mongo node server.js"
+    "start": "PERS=mongo node server.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
+    "firebase-admin": "^11.0.0",
     "mongoose": "^6.4.1",
     "socket.io": "^4.5.1"
   }
