@@ -1,7 +1,8 @@
 const express = require('express');
 
-//const pers = require('../../config');
-const pers = "firebase"; 
+//const pers = process.env.PERS;
+const pers = "mysql"; 
+
 let routerProducts;
 let routerCart;
 
@@ -15,13 +16,16 @@ switch(pers) {
         routerCart = require('../daos/carts/cartsDaoFile');
         break;
     case 'mongo':
-        console.log("mongo en index")
         routerProducts = require('../daos/products/productsDaoMongoDb');
         routerCart = require('../daos/carts/cartsDaoMongoDb');
         break;
     case 'firebase':
         routerProducts = require('../daos/products/productsDaoFirebase');
         routerCart = require('../daos/carts/cartsDaoFirebase');
+        break;
+    case 'mysql':
+        routerProducts = require('../daos/products/productsDaoMysql');
+        routerCart = require('../daos/carts/cartsDaoMysql');
         break;
     default:
         console.log("persistencia no definida");  

@@ -65,7 +65,6 @@ class Container {
     }
 
     async getAll() {
-        console.log("esta aca")
         try {
             const content = await fs.promises.readFile(this.fileName, 'utf-8');
             const contentParse = JSON.parse(content);

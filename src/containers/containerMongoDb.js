@@ -1,4 +1,9 @@
 const mongoose = require('mongoose');
+const { mongoDb } = require('../../config');
+
+mongoose.connect(mongoDb.mongoConfig);
+console.log("conectados a mongo");
+
 class Container {
     constructor (collection) {
         this.collection = collection;
